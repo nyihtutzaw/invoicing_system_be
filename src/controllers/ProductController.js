@@ -1,6 +1,8 @@
+import ProductModel from './../model/product'
 class ProductController {
-  index(req, res) {
-    res.status(200).json({ success: true, products: [] })
+  async index(req, res) {
+    const products = await ProductModel.findAll()
+    res.status(200).json({ products: products })
   }
 }
 
