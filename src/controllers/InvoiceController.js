@@ -2,9 +2,17 @@ import InvoiceModel from './../model/invoice'
 import { validationResult } from 'express-validator'
 import InvoiceProductModel from '../model/invoice_product'
 import ProductModel from '../model/product'
+import { getPaginationAttribute } from '../utli'
 class ProductController {
   async index(req, res) {
+    const invoiceTotalCount = await InvoiceModel.count()
+    let { limit, offset, page, totalPage } = getPaginationAttribute(
+      req,
+      invoiceTotalCount
+    )
     const invoices = await InvoiceModel.findAll({
+      limit: limit,
+      offset: offset,
       include: [
         {
           model: ProductModel,
@@ -12,7 +20,17 @@ class ProductController {
         },
       ],
     })
-    res.status(200).json({ invoices: invoices })
+
+    invoices.page = page
+
+    res.status(200).json({
+      invoices: {
+        data: invoices,
+        page: page,
+        count: invoiceTotalCount,
+        totalPage: totalPage,
+      },
+    })
   }
   async each(req, res) {
     const invoice = await InvoiceModel.findOne({
