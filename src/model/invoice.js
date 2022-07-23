@@ -3,6 +3,7 @@ import { DataTypes } from 'sequelize'
 const InvoiceModel = DB_CONNECTION.define('invoice', {
   customer_name: DataTypes.TEXT,
   sale_person: DataTypes.TEXT,
+  total: DataTypes.DECIMAL,
   note: {
     type: DataTypes.TEXT,
     allowNull: false,
