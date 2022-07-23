@@ -20,5 +20,50 @@ This command will insert dummy product data into your mysql database.
 
 ##### Products
 
-1. Get All Products
-   `/api/products `
+1. ##### Get All Products
+   GET -> `/api/products `
+2. ##### Get Product by keyword search
+   GET -> `/api/products?search=Piza`
+
+#### Invoice
+
+1. ##### Get All Invoice
+
+   GET -> `/api/invoices `
+
+   For pagination you need to provide page as a query. If there is no page query, default will be page 1.
+   GET -> `/api/invoices?page=2`
+
+2. ##### Save Invoice
+
+   POST -> `/api/invoices `
+
+   ###### Sample Request Body
+
+   json
+
+   ```
+   {
+    "customer_name":"a",
+    "sale_person":"b",
+    "total":10000,
+    "note":"ABC",
+    "product_ids":
+      [
+         {
+            "id":1,
+            "price":1000,
+            "amount":2
+         },
+         {
+            "id":2,
+            "price":1000,
+            "amount":2
+         }
+      ]
+   }
+
+   ```
+
+3. ##### Get Each Invoice
+   GET -> `/api/invoice/1 `
