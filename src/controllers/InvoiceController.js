@@ -1,4 +1,5 @@
 import InvoiceModel from './../model/invoice'
+import { validationResult } from 'express-validator'
 class ProductController {
   async index(req, res) {
     res.status(200).json({ invoices: [] })
@@ -12,7 +13,7 @@ class ProductController {
       const result = await InvoiceModel.create({
         customer_name,
         sale_person,
-        note,
+        note: note || '',
       })
       res.status(200).json({ invoices: result })
     } catch (error) {
