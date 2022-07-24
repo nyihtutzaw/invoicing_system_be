@@ -2,8 +2,8 @@ import InvoiceModel from './../model/invoice'
 
 import InvoiceProductModel from '../model/invoice_product'
 import ProductModel from '../model/product'
-import { getLast7Days, getPaginationAttribute } from '../utli'
-import { QueryTypes, Sequelize } from 'sequelize'
+import { getLast7Days, getPaginationAttribute, getLast7Month } from '../utli'
+import { QueryTypes } from 'sequelize'
 import DB_CONNECTION from '../database'
 class ProductController {
   async index(req, res) {
@@ -97,6 +97,23 @@ class ProductController {
           result.daily.push({ date: day, total: foundDate.total })
         } else {
           result.daily.push({ date: day, total: 0 })
+        }
+      })
+
+      const lastMonths = getLast7Month()
+      const monthResult = await DB_CONNECTION.query(
+        `select sum(total) as total,MONTH(createdAt) as month from invoices
+        where MONTH(createdAt) between "${
+          lastMonths[lastMonths.length - 1].number
+        }" and "${lastMonths[0].number}" group by MONTH(createdAt)`,
+        { type: QueryTypes.SELECT }
+      )
+      lastMonths.forEach((month) => {
+        const foundMonth = monthResult.find((r) => r.month === month.number)
+        if (foundMonth) {
+          result.monthly.push({ month: month.name, total: foundMonth.total })
+        } else {
+          result.monthly.push({ month: month.name, total: 0 })
         }
       })
 

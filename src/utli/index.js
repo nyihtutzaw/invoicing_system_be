@@ -22,8 +22,6 @@ export function getPaginationAttribute(req, totalCount) {
   }
 }
 
-30
-
 export function getLast7Days() {
   var result = []
   for (var i = 0; i < 7; i++) {
@@ -32,5 +30,37 @@ export function getLast7Days() {
     result.push(dayjs(d).format('YYYY-MM-DD'))
   }
 
+  return result
+}
+
+export function getLast7Month() {
+  var monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ]
+  var today = new Date()
+  var d
+  var month
+  var result = []
+
+  for (var i = 6; i >= 0; i -= 1) {
+    d = new Date(today.getFullYear(), today.getMonth() - i, 1)
+    month = monthNames[d.getMonth()]
+    result.push({
+      name: month,
+      number: d.getMonth() + 1,
+    })
+  }
+  result = result.reverse()
   return result
 }
