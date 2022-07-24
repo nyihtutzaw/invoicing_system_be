@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 export function getPaginationAttribute(req, totalCount) {
   let limit = 10
   let offset = 0
@@ -18,4 +20,17 @@ export function getPaginationAttribute(req, totalCount) {
     page,
     totalPage,
   }
+}
+
+30
+
+export function getLast7Days() {
+  var result = []
+  for (var i = 0; i < 7; i++) {
+    var d = new Date()
+    d.setDate(d.getDate() - i)
+    result.push(dayjs(d).format('YYYY-MM-DD'))
+  }
+
+  return result
 }

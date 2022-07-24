@@ -14,4 +14,5 @@ export default (routes) => {
     InvoiceController.store
   )
   routes.get('/invoice/:id', InvoiceController.each)
+  routes.get('/invoice-graph', InvoiceController.graph)
 }

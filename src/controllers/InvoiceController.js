@@ -1,8 +1,10 @@
 import InvoiceModel from './../model/invoice'
-import { validationResult } from 'express-validator'
+
 import InvoiceProductModel from '../model/invoice_product'
 import ProductModel from '../model/product'
-import { getPaginationAttribute } from '../utli'
+import { getLast7Days, getPaginationAttribute } from '../utli'
+import { QueryTypes, Sequelize } from 'sequelize'
+import DB_CONNECTION from '../database'
 class ProductController {
   async index(req, res) {
     const invoiceTotalCount = await InvoiceModel.count()
@@ -73,6 +75,34 @@ class ProductController {
     } catch (error) {
       console.log(error)
       res.status(500).json({ message: 'Error saving invoice' })
+    }
+  }
+  async graph(req, res) {
+    try {
+      const result = {
+        daily: [],
+        monthly: [],
+      }
+      const lastDays = getLast7Days()
+      const dailyResult = await DB_CONNECTION.query(
+        `select sum(total) as total,DATE(createdAt) as date from invoices  
+        where DATE(createdAt) between "${lastDays[lastDays.length - 1]}" and "${
+          lastDays[0]
+        }" group by DATE(createdAt)`,
+        { type: QueryTypes.SELECT }
+      )
+      lastDays.forEach((day) => {
+        const foundDate = dailyResult.find((r) => r.date === day)
+        if (foundDate) {
+          result.daily.push({ date: day, total: foundDate.total })
+        } else {
+          result.daily.push({ date: day, total: 0 })
+        }
+      })
+
+      res.status(200).json(result)
+    } catch (error) {
+      console.log(error)
     }
   }
 }
