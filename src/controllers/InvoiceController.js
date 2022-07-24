@@ -13,6 +13,7 @@ class ProductController {
     const invoices = await InvoiceModel.findAll({
       limit: limit,
       offset: offset,
+      order: [['id', 'DESC']],
       include: [
         {
           model: ProductModel,
