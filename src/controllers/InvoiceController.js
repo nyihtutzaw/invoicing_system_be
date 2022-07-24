@@ -2,7 +2,12 @@ import InvoiceModel from './../model/invoice'
 
 import InvoiceProductModel from '../model/invoice_product'
 import ProductModel from '../model/product'
-import { getLast7Days, getPaginationAttribute, getLast7Month } from '../utli'
+import {
+  getLast7Days,
+  getPaginationAttribute,
+  getLast7Month,
+  getLastYears,
+} from '../utli'
 import { QueryTypes } from 'sequelize'
 import DB_CONNECTION from '../database'
 class ProductController {
@@ -82,6 +87,7 @@ class ProductController {
       const result = {
         daily: [],
         monthly: [],
+        yearly: [],
       }
       const lastDays = getLast7Days()
       const dailyResult = await DB_CONNECTION.query(
@@ -114,6 +120,24 @@ class ProductController {
           result.monthly.push({ month: month.name, total: foundMonth.total })
         } else {
           result.monthly.push({ month: month.name, total: 0 })
+        }
+      })
+
+      const lastYears = getLastYears()
+      const yearResult = await DB_CONNECTION.query(
+        `select sum(total) as total,YEAR(createdAt) as year from invoices
+        where YEAR(createdAt) between "${
+          lastYears[lastYears.length - 1]
+        }" and "${lastYears[0]}" group by YEAR(createdAt)`,
+        { type: QueryTypes.SELECT }
+      )
+
+      lastYears.forEach((year) => {
+        const foundYear = yearResult.find((r) => r.year === year)
+        if (foundYear) {
+          result.yearly.push({ year: year, total: foundYear.total })
+        } else {
+          result.yearly.push({ year: year, total: 0 })
         }
       })
 

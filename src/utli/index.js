@@ -64,3 +64,13 @@ export function getLast7Month() {
   result = result.reverse()
   return result
 }
+
+export function getLastYears() {
+  var result = []
+  for (var i = 0; i < 5; i++) {
+    const d = new Date()
+    d.setFullYear(d.getFullYear() - i)
+    result.push(d.getFullYear())
+  }
+  return result
+}
