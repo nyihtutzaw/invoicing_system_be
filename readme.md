@@ -1,4 +1,4 @@
-#### Project Setup
+ac#### Project Setup
 
 1. clone the repository
 2. cd into the folder and npm install or yarn
@@ -66,4 +66,8 @@ This command will insert dummy product data into your mysql database.
    ```
 
 3. ##### Get Each Invoice
+
    GET -> `/api/invoice/1 `
+
+4. ##### Get Chart Data for Invoice
+   GET -> `/api/invoice-graph`
