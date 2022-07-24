@@ -2,7 +2,7 @@
 
 ##### Frontend
 
-` https://invoicing-system-fe.netlify.app/`
+`invoicing.54827095-98-20211103124321.webstarterz.com `
 
 ##### Api
 

@@ -48,6 +48,10 @@ ProductModel.destroy({
 })
 
 PRODUCTS.forEach(async (product) => {
-  const savedData = ProductModel.build(product)
-  await savedData.save()
+  try {
+    const savedData = ProductModel.build(product)
+    await savedData.save()
+  } catch (error) {
+    console.log(error)
+  }
 })
