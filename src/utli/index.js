@@ -9,7 +9,7 @@ export function getPaginationAttribute(req, totalCount) {
     }
   }
 
-  let totalPage = Math.round(totalCount / limit)
+  let totalPage = Math.ceil(totalCount / limit)
   if (totalPage < 1) totalPage = 1
 
   return {
