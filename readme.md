@@ -1,4 +1,14 @@
-ac#### Project Setup
+#### Demo Version
+
+##### Frontend
+
+` https://invoicing-system-fe.netlify.app/`
+
+##### Api
+
+`http://150.95.31.137:3200/api/ `
+
+#### Project Setup
 
 1. clone the repository
 2. cd into the folder and npm install or yarn
