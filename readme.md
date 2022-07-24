@@ -2,7 +2,7 @@
 
 ##### Frontend
 
-`invoicing.54827095-98-20211103124321.webstarterz.com `
+`http://invoicing.54827095-98-20211103124321.webstarterz.com/invoices `
 
 ##### Api
 
